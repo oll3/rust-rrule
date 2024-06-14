@@ -220,63 +220,63 @@ fn weekday_to_str(d: Weekday) -> String {
 pub struct RRule<Stage = Validated> {
     /// The frequency of the rrule.
     /// For example, yearly, weekly, hourly
-    pub(crate) freq: Frequency,
+    pub freq: Frequency,
     /// The interval between each frequency iteration.
     /// For example,
     /// - A yearly frequency with an interval of `2` creates 1 event every two years.
     /// - An hourly frequency with an interval of `2` created 1 event every two hours.
-    pub(crate) interval: u16,
+    pub interval: u16,
     /// How many occurrences will be generated.
-    pub(crate) count: Option<u32>,
+    pub count: Option<u32>,
     /// The end date after which new events will no longer be generated.
     /// If the `DateTime` is equal to an instance of the event, it will be the last event.
     #[cfg_attr(feature = "serde", serde_as(as = "DisplayFromStr"))]
-    pub(crate) until: Option<DateTime<Tz>>,
+    pub until: Option<DateTime<Tz>>,
     /// The start day of the week.
     /// This will affect recurrences based on weekly periods.
-    pub(crate) week_start: Weekday,
+    pub week_start: Weekday,
     /// Occurrence number corresponding to the frequency period.
     /// For example:
     /// - A monthly frequency with an `by_set_pos` of `-1` meaning the last day of the month.
     /// - An hourly frequency with an `by_set_pos` of `2` meaning the 2nd hour. (TODO Check)
-    pub(crate) by_set_pos: Vec<i32>,
+    pub by_set_pos: Vec<i32>,
     /// The months to apply the recurrence to.
     /// Can be a value from 1 to 12.
-    pub(crate) by_month: Vec<u8>,
+    pub by_month: Vec<u8>,
     /// The month days to apply the recurrence to.
     /// Can be a value from -31 to -1 and 1 to 31.
-    pub(crate) by_month_day: Vec<i8>,
-    pub(crate) by_n_month_day: Vec<i8>,
+    pub by_month_day: Vec<i8>,
+    pub by_n_month_day: Vec<i8>,
     /// The year days to apply the recurrence to.
     /// Can be a value from -366 to -1 and 1 to 366.
-    pub(crate) by_year_day: Vec<i16>,
+    pub by_year_day: Vec<i16>,
     /// The week numbers to apply the recurrence to.
     /// Week numbers have the meaning described in ISO8601, that is,
     /// the first week of the year is that it contains at least four days of the new year.
     /// Week day starts counting on from `week_start` value.
     /// Can be a value from -53 to -1 and 1 to 53.
-    pub(crate) by_week_no: Vec<i8>,
+    pub by_week_no: Vec<i8>,
     /// The days of the week the rules should be recurring.
     /// Should be a value of `Weekday` and optionally with a prefix of -366 to 366 depending on frequency.
     /// Corresponds with `BYDAY` field.
-    pub(crate) by_weekday: Vec<NWeekday>,
+    pub by_weekday: Vec<NWeekday>,
     /// The hours to apply the recurrence to.
     /// Can be a value from 0 to 23.
-    pub(crate) by_hour: Vec<u8>,
+    pub by_hour: Vec<u8>,
     /// The minutes to apply the recurrence to.
     /// Can be a value from 0 to 59.
-    pub(crate) by_minute: Vec<u8>,
+    pub by_minute: Vec<u8>,
     /// The seconds to apply the recurrence to.
     /// Can be a value from 0 to 59.
-    pub(crate) by_second: Vec<u8>,
+    pub by_second: Vec<u8>,
     /// Extension, not part of RFC spec.
     /// Amount of days/months from Easter Sunday itself.
     /// Can be a value from -366 to 366.
     /// Note: Only used when `by-easter` feature flag is set. Otherwise, it is ignored.
-    pub(crate) by_easter: Option<i16>,
+    pub by_easter: Option<i16>,
     /// A phantom data to have the stage (unvalidated or validated).
     #[cfg_attr(feature = "serde", serde_as(as = "ignore"))]
-    pub(crate) stage: PhantomData<Stage>,
+    pub stage: PhantomData<Stage>,
 }
 
 impl Default for RRule<Unvalidated> {
