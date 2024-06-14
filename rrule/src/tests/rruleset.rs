@@ -1,3 +1,5 @@
+use std::hint::black_box;
+
 use crate::tests::common::{check_occurrences, test_recurring_rrule_set, ymd_hms};
 use crate::{Frequency, NWeekday, RRule, RRuleSet, Weekday};
 
@@ -538,6 +540,29 @@ fn weekly_with_interval_1() {
         set,
         &[ymd_hms(1960, 1, 4, 9, 0, 0), ymd_hms(1960, 1, 11, 9, 0, 0)],
     );
+}
+
+#[test]
+fn performance() {
+    let dt_start = ymd_hms(1960, 1, 4, 9, 0, 0);
+
+    let rrule = RRule {
+        freq: Frequency::Daily,
+        count: None,
+        by_hour: vec![9],
+        by_minute: vec![0],
+        by_second: vec![0],
+        by_weekday: vec![NWeekday::Every(Weekday::Mon)],
+        ..Default::default()
+    };
+    // 4th is Monday
+    let rrule = rrule.validate(dt_start).unwrap();
+
+    let set = RRuleSet::new(dt_start).rrule(rrule);
+
+    for date in set.into_iter().take(200_000_000) {
+        black_box(date);
+    }
 }
 
 #[test]
